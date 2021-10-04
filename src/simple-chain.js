@@ -6,23 +6,35 @@ import { NotImplementedError } from '../extensions/index.js';
  */
 export default {
   getLength() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    return this.chain.length;
   },
-  addLink(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  addLink(value) {
+    if(!this.chain) this.chain = [];
+    if(value === undefined) value = '';
+    this.chain.push(value);
+    return this;
   },
-  removeLink(/* position */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  removeLink(position) {
+    if(!this.chain) {
+      this.chain = [];
+    }
+    position--;
+    if(!(position in this.chain) || isNaN(+position)) {
+      this.chain = null;
+      throw {'message': 'You can\'t remove incorrect link!'}
+    }
+    this.chain = this.chain.slice(0, position).concat(this.chain.slice(position + 1));
+    return this;
   },
   reverseChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if(!this.chain) this.chain = [];
+    this.chain = this.chain.reverse();
+    return this;
   },
   finishChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if(!this.chain) this.chain = [];
+    const chain = this.chain.map((val) =>`( ${val} )`).join('~~');
+    this.chain = null;
+    return chain;
   }
 };
